@@ -1,24 +1,22 @@
 import random
 import pgzrun
 from heroi import Heroi
-
+from inimigo import Inimigo
 
 WIDTH = 540
 HEIGHT = 550
 scene_shift = 0
-limits = {
-    'left': 40,
-    'right': WIDTH - 100,
-    'topo': HEIGHT - 150,
-    'ground': HEIGHT - 40
-}
+
 hero = Heroi((50, HEIGHT - 100))
+inimigos = []
 
 def draw():
     screen.clear()
     screen.blit('back', (scene_shift % -WIDTH, 0))
     screen.blit('back', ((scene_shift % -WIDTH) + WIDTH, 0))
     hero.picture()
+    for inimigo in inimigos:
+        inimigo.picture()
 
 def update():
     global scene_shift
@@ -36,15 +34,23 @@ def update():
         if keyboard.left:
             scene_shift += speed
             direction = 'left'
-            hero.move_direction(direction, speed, limits)
+            hero.move_direction(direction, speed)
         elif keyboard.right:
+            if random.random() < 0.02:  # 2% de chance a cada movimento
+                criar_inimigo()
             scene_shift -= speed
             direction = 'right'
-            hero.move_direction(direction, speed, limits)
+            hero.move_direction(direction, speed)
         elif keyboard.up:
-            hero.move_direction('up', speed, limits)
+            hero.move_direction('up', speed)
         elif keyboard.down:
-            hero.move_direction('down', speed,  limits)
+            hero.move_direction('down', speed)
 
+    for inimigo in inimigos:
+        inimigo.update()
 
+def criar_inimigo():
+    y = random.randint(450, 540)
+    inimigo = Inimigo((900, y))  # Começa fora da tela à direita
+    inimigos.append(inimigo)
 pgzrun.go()

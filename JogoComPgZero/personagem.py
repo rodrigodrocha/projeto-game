@@ -1,11 +1,17 @@
 class Personagem:
-    def __init__(self, position, sprite):
+    def __init__(self, position, sprite, WIDTH = 0, HEIGHT = 0):
         from pgzero.actor import Actor
 
         self.actor = Actor(sprite[0], position)
         self.frames = sprite
         self.frame_actual = 0
         self.animating = False
+        self.limits = {
+    'left': 40,
+    'right': WIDTH - 100,
+    'topo': HEIGHT - 150,
+    'ground': HEIGHT - 40
+}
     def move(self, dx, dy):
         self.actor.x += dx
         self.actor.y += dy
