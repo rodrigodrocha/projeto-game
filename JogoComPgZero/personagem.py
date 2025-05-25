@@ -6,18 +6,15 @@ class Personagem:
         self.frames = sprite
         self.frame_actual = 0
         self.animating = False
-
     def move(self, dx, dy):
         self.actor.x += dx
         self.actor.y += dy
         self.animating = True
-
     def replace_frame(self):
         if self.animating:
             self.frame_actual = (self.frame_actual + 1) % len(self.frames)
         else:
             self.frame_actual = 0
         self.actor.image = self.frames[self.frame_actual]
-
     def picture(self):
         self.actor.draw()
